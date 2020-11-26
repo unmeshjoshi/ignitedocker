@@ -17,7 +17,15 @@ dependencies {
     compile "org.apache.ignite:ignite-log4j:${igniteVersion}"
     compile "org.apache.ignite:ignite-indexing:${igniteVersion}"
     runtime "org.apache.ignite:ignite-kubernetes:${igniteVersion}"
+    compile group: 'org.apache.spark', name: 'spark-streaming_2.12', version: '3.0.1'
+    compile group: 'org.apache.spark', name: 'spark-sql-kafka-0-10_2.12', version: '3.0.1'
+    compile group: 'org.apache.spark', name: 'spark-sql_2.12', version: '3.0.1'
+    testCompile group: 'io.github.embeddedkafka', name: 'embedded-kafka_2.12', version: '2.6.0'
+
     testCompile 'junit:junit:4.12'
+    testCompile group: 'xstream', name: 'xstream', version: '1.2.2'
+    testCompile group: 'asm', name: 'asm', version: '3.3.1'
+
 }
 
 task fatJar(type: Jar) {
