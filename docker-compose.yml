@@ -1,0 +1,44 @@
+version: "3"
+services:
+  ignite-01:
+    image: apacheignite/ignite:2.9.0
+    hostname: ignite-01
+    environment:
+      - CONFIG_URI=file:///config/docker-ignite.xml
+      - JVM_OPTS=-XX:+UseG1GC -DIGNITE_PERFORMANCE_SUGGESTIONS_DISABLED=true
+    networks:
+      - ignite
+    volumes:
+      - "./config:/config"
+
+  ignite-02:
+    image: apacheignite/ignite:2.9.0
+    hostname: ignite-02
+    environment:
+      - CONFIG_URI=file:///config/docker-ignite.xml
+      - JVM_OPTS=-XX:+UseG1GC -DIGNITE_PERFORMANCE_SUGGESTIONS_DISABLED=true
+    networks:
+     - ignite
+    volumes:
+      - "./config:/config"
+
+  ignite-03:
+    image: apacheignite/ignite:2.9.0
+    hostname: ignite-03
+    environment:
+      - CONFIG_URI=file:///config/docker-ignite.xml
+      - JVM_OPTS=-XX:+UseG1GC -DIGNITE_PERFORMANCE_SUGGESTIONS_DISABLED=true
+    networks:
+     - ignite
+    volumes:
+      - "./config:/config"
+  dns-server:
+    image: defreitas/dns-proxy-server
+    hostname: dns.mageddo
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/resolv.conf:/etc/resolv.conf
+    restart: unless-stopped
+networks:
+  ignite:
+    driver: bridge

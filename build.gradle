@@ -1,0 +1,28 @@
+plugins {
+    id "java"
+    id "application"
+}
+
+ext {
+    igniteVersion = "2.9.0"
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile "org.apache.ignite:ignite-core:${igniteVersion}"
+    compile "org.apache.ignite:ignite-spring:${igniteVersion}"
+    compile "org.apache.ignite:ignite-log4j:${igniteVersion}"
+    compile "org.apache.ignite:ignite-indexing:${igniteVersion}"
+    runtime "org.apache.ignite:ignite-kubernetes:${igniteVersion}"
+    testCompile 'junit:junit:4.12'
+}
+
+task fatJar(type: Jar) {
+  baseName = project.name
+  from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+  with jar
+}
+
