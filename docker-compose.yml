@@ -6,12 +6,19 @@ services:
     environment:
       - CONFIG_URI=file:///config/docker-ignite.xml
       - JVM_OPTS=-XX:+UseG1GC -DIGNITE_PERFORMANCE_SUGGESTIONS_DISABLED=true
-      - OPTION_LIBS=ignite-log4j
+      - OPTION_LIBS=ignite-log4j,ignite-rest-http
     networks:
       - ignite
     volumes:
       - "./config:/config"
       - "${PWD}/config:/opt/ignite/apache-ignite/config"
+    ports:
+      - "11211:11211"
+      - "47100:47100"
+      - "47500:47500"
+      - "49112:49112"
+      - "10800:10800"
+      - "8080:8080"
 
   ignite-02:
     image: apacheignite/ignite:2.9.0
@@ -19,7 +26,7 @@ services:
     environment:
       - CONFIG_URI=file:///config/docker-ignite.xml
       - JVM_OPTS=-XX:+UseG1GC -DIGNITE_PERFORMANCE_SUGGESTIONS_DISABLED=true
-      - OPTION_LIBS=ignite-log4j
+      - OPTION_LIBS=ignite-log4j,ignite-rest-http
     networks:
      - ignite
     volumes:
@@ -32,19 +39,12 @@ services:
     environment:
       - CONFIG_URI=file:///config/docker-ignite.xml
       - JVM_OPTS=-XX:+UseG1GC -DIGNITE_PERFORMANCE_SUGGESTIONS_DISABLED=true
-      - OPTION_LIBS=ignite-log4j
+      - OPTION_LIBS=ignite-log4j,ignite-rest-http
     networks:
      - ignite
     volumes:
       - "./config:/config"
       - "${PWD}/config:/opt/ignite/apache-ignite/config"
-  dns-server:
-    image: defreitas/dns-proxy-server
-    hostname: dns.mageddo
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /etc/resolv.conf:/etc/resolv.conf
-    restart: unless-stopped
 networks:
   ignite:
     driver: bridge

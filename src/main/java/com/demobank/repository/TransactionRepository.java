@@ -24,7 +24,7 @@ public class TransactionRepository {
     }
 
     public CacheConfiguration<TransactionKey, Transaction> getCacheConfiguration() {
-        CacheConfiguration<TransactionKey, Transaction> transactionCacheConfig = new CacheConfiguration<>("transactionCache");
+        CacheConfiguration<TransactionKey, Transaction> transactionCacheConfig = new CacheConfiguration<>("TRANSACTIONCACHE");
         transactionCacheConfig.setCacheMode(CacheMode.PARTITIONED);
         transactionCacheConfig.setAtomicityMode(CacheAtomicityMode.ATOMIC);
         transactionCacheConfig.setBackups(1);

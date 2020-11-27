@@ -55,7 +55,7 @@
         <param name="Target" value="System.out"/>
 
         <!-- Log from ERROR and higher (change to WARN if needed). -->
-        <param name="Threshold" value="DEBUG"/>
+        <param name="Threshold" value="INFO"/>
 
         <!-- The default pattern: Date Priority [Category] Message\n -->
         <layout class="org.apache.log4j.PatternLayout">
@@ -120,9 +120,12 @@
     <!-- Default settings. -->
     <root>
         <!-- Print out all info by default. -->
-        <level value="DEBUG"/>
+        <level value="INFO"/>
 
         <!-- Uncomment to enable logging to console. -->
+        <!--
+        <appender-ref ref="CONSOLE"/>
+        -->
 
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>

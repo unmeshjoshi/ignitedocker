@@ -23,7 +23,9 @@ public class TransactionRepositoryTest {
 
         String accountNumber = "9952388700";
         //With dockerized ignite setup, seed adds transactions every time. FIXME:
-        TransactionRepository transactionRepository = seedTransactionsForAccount(ignite, accountNumber);
+        generateTransactions(accountNumber);
+
+        TransactionRepository transactionRepository = new TransactionRepository(new IgniteFactory().startOrGetIgniteInClientMode());
 
         List<Transaction> fetchedTransactions = transactionRepository.findByAccount(accountNumber);
 
@@ -32,28 +34,18 @@ public class TransactionRepositoryTest {
         assertEquals(fetchedTransactions.size(), filteredTxns.size());
     }
 
-    @NotNull
-    private TransactionRepository seedTransactionsForAccount(Ignite ignite, String accountNumber) {
-        TransactionRepository transactionRepository = new TransactionRepository(ignite);
-        List<Transaction> transactions = generateTransactions(accountNumber);
-        for (Transaction transaction : transactions) {
-            transactionRepository.save(transaction);
-        }
-        transactionRepository.printStats();
-        return transactionRepository;
-    }
-
-
     private long tranKey = 0l;
 
-    private List<Transaction> generateTransactions(String accountNumber) {
+    private void generateTransactions(String accountNumber) {
+        TransactionRepository transactionRepository = new TransactionRepository(new IgniteFactory().startOrGetIgniteInClientMode());
         String transactionDate = "2020-02-02";
-        List<Transaction> transactions = new java.util.ArrayList<Transaction>();
+
         for (int i = 0; i < 100; i++) {
             UUID tranasctionId = UUID.randomUUID();
             BigInteger randomAmount = BigInteger.valueOf(new Random().nextInt(1000000));
-            transactions.add(new Transaction(tranasctionId.toString(), tranKey++, transactionDate, randomAmount, "Taxes", accountNumber));
+            transactionRepository.save(new Transaction(tranasctionId.toString(), tranKey++, transactionDate, randomAmount, "Taxes", accountNumber));
         }
-        return transactions;
+        transactionRepository.printStats();
+
     }
 }
