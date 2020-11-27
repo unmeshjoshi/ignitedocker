@@ -7,13 +7,10 @@ import org.apache.ignite.IgniteCache;
 import org.apache.ignite.cache.CacheAtomicityMode;
 import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.cache.CachePeekMode;
-import org.apache.ignite.cache.query.*;
+import org.apache.ignite.cache.query.FieldsQueryCursor;
+import org.apache.ignite.cache.query.SqlFieldsQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
-import org.springframework.jdbc.object.GenericSqlQuery;
-import org.springframework.jdbc.object.SqlQuery;
 
-import javax.cache.Cache;
-import javax.xml.crypto.dsig.TransformService;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
