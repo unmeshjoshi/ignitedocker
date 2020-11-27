@@ -6,10 +6,12 @@ services:
     environment:
       - CONFIG_URI=file:///config/docker-ignite.xml
       - JVM_OPTS=-XX:+UseG1GC -DIGNITE_PERFORMANCE_SUGGESTIONS_DISABLED=true
+      - OPTION_LIBS=ignite-log4j
     networks:
       - ignite
     volumes:
       - "./config:/config"
+      - "${PWD}/config:/opt/ignite/apache-ignite/config"
 
   ignite-02:
     image: apacheignite/ignite:2.9.0
@@ -17,10 +19,12 @@ services:
     environment:
       - CONFIG_URI=file:///config/docker-ignite.xml
       - JVM_OPTS=-XX:+UseG1GC -DIGNITE_PERFORMANCE_SUGGESTIONS_DISABLED=true
+      - OPTION_LIBS=ignite-log4j
     networks:
      - ignite
     volumes:
       - "./config:/config"
+      - "${PWD}/config/:/opt/ignite/apache-ignite/config"
 
   ignite-03:
     image: apacheignite/ignite:2.9.0
@@ -28,10 +32,12 @@ services:
     environment:
       - CONFIG_URI=file:///config/docker-ignite.xml
       - JVM_OPTS=-XX:+UseG1GC -DIGNITE_PERFORMANCE_SUGGESTIONS_DISABLED=true
+      - OPTION_LIBS=ignite-log4j
     networks:
      - ignite
     volumes:
       - "./config:/config"
+      - "${PWD}/config:/opt/ignite/apache-ignite/config"
   dns-server:
     image: defreitas/dns-proxy-server
     hostname: dns.mageddo

@@ -11,8 +11,15 @@
 
     <bean id="ignite.cfg" class="org.apache.ignite.configuration.IgniteConfiguration">
       <!-- Set to true to enable distributed class loading for examples, default is false. -->
-        <property name="peerClassLoadingEnabled" value="true"/>
-
+       <property name="peerClassLoadingEnabled" value="true"/>
+        <property name="workDirectory" value="/tmp/work"/>
+<!--        Uncomment following to enable debug logging on the server -->
+<!--        <property name="gridLogger">-->
+<!--            <bean class="org.apache.ignite.logger.log4j.Log4JLogger">-->
+<!--                &lt;!&ndash; log4j configuration file &ndash;&gt;-->
+<!--                <constructor-arg type="java.lang.String" value="/opt/ignite/apache-ignite/config/ignite-log4j.xml"/>-->
+<!--            </bean>-->
+<!--        </property>-->
         <property name="cacheConfiguration">
             <list>
               <bean class="org.apache.ignite.configuration.CacheConfiguration">

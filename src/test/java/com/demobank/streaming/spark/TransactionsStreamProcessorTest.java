@@ -25,7 +25,8 @@ import java.util.concurrent.TimeoutException;
 public class TransactionsStreamProcessorTest {
     @ClassRule
     public static DockerComposeContainer environment =
-            new DockerComposeContainer(new File("docker-compose.yml")).withLocalCompose(true); //local mode is important.TODO:Figure out how to do dns resolution otherwise
+            new DockerComposeContainer(new File("docker-compose.yml")).withLocalCompose(true);
+                     //local mode is important.TODO:Figure out how to do dns resolution otherwise
 
     private static String transactionsTopicName = "parsedTxns";
     private static String brokerListenAddress = "localhost:9002";
