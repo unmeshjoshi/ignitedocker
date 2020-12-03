@@ -15,27 +15,29 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TransactionRepository {
+public class TransactionIgniteRepository {
 
     private final Ignite ignite;
+    private final IgniteCache<TransactionKey, Transaction> cache;
 
-    public TransactionRepository(Ignite ignite) {
+    public TransactionIgniteRepository(Ignite ignite) {
         this.ignite = ignite;
+        cache = getOrCreateCache();
     }
 
     public CacheConfiguration<TransactionKey, Transaction> getCacheConfiguration() {
         CacheConfiguration<TransactionKey, Transaction> transactionCacheConfig = new CacheConfiguration<>("TRANSACTIONCACHE");
         transactionCacheConfig.setCacheMode(CacheMode.PARTITIONED);
         transactionCacheConfig.setAtomicityMode(CacheAtomicityMode.ATOMIC);
-        transactionCacheConfig.setBackups(1);
+        transactionCacheConfig.setBackups(2);
         transactionCacheConfig.setIndexedTypes(TransactionKey.class, Transaction.class);
+        transactionCacheConfig.setAtomicityMode(CacheAtomicityMode.TRANSACTIONAL);
 
         return transactionCacheConfig;
     }
 
     public void save(Transaction transaction) {
-      IgniteCache<TransactionKey, Transaction> cache = getOrCreateCache();
-      cache.putIfAbsent(new TransactionKey(transaction.getTransactionId()), transaction);
+        cache.putIfAbsent(new TransactionKey(transaction.getTransactionId()), transaction);
     }
 
     public IgniteCache<TransactionKey, Transaction> getOrCreateCache() {
@@ -43,23 +45,23 @@ public class TransactionRepository {
     }
 
     public List<Transaction> findByAccount(String accountNumber) {
-        String sql = "select * from Transaction where accountNumber = ?" ;
+        String sql = "select * from Transaction where accountNumber = ?";
 
         IgniteCache<TransactionKey, Transaction> cache = getOrCreateCache();
         SqlFieldsQuery query = new SqlFieldsQuery(sql, true)
-                               .setArgs(accountNumber)
-                               .setPageSize(25); //this is not for pagination.
+                .setArgs(accountNumber)
+                .setPageSize(25); //this is not for pagination.
 
         try (FieldsQueryCursor<List<?>> cursor = cache.query(query)) {
             List<List<?>> all = cursor.getAll();
             //TODO: Use RowMapper?
             return all.stream().map(list -> {
-                return new Transaction((String)list.get(0),
-                            (Long) list.get(1),
-                        (String)list.get(2),
-                        (BigInteger)list.get(3),
-                        (String)list.get(4),
-                        (String)list.get(5));
+                return new Transaction((String) list.get(0),
+                        (Long) list.get(1),
+                        (String) list.get(2),
+                        (BigInteger) list.get(3),
+                        (String) list.get(4),
+                        (String) list.get(5));
             }).collect(Collectors.toList());
         }
     }

@@ -68,7 +68,7 @@
         By default, the logging goes to IGNITE_HOME/work/log folder
     -->
     <appender name="FILE" class="org.apache.ignite.logger.log4j.Log4jRollingFileAppender">
-        <param name="Threshold" value="DEBUG"/>
+        <param name="Threshold" value="INFO"/>
         <param name="File" value="${IGNITE_HOME}/work/log/ignite.log"/>
         <param name="Append" value="true"/>
         <param name="MaxFileSize" value="10MB"/>
@@ -120,7 +120,7 @@
     <!-- Default settings. -->
     <root>
         <!-- Print out all info by default. -->
-        <level value="INFO"/>
+<!--        <level value="DEBUG"/>-->
 
         <!-- Uncomment to enable logging to console. -->
         <!--

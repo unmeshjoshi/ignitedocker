@@ -1,0 +1,63 @@
+version: "3.2"
+services:
+  node1:
+    hostname: node1
+    image: cockroachdb/cockroach:latest
+#    volumes:
+#      - ./data/node1:/cockroach/cockroach-data
+    entrypoint: [ ]
+    command:
+      - /bin/bash
+      - -c
+      - |
+        /cockroach/cockroach.sh start --insecure --join=node1:26257 --background
+        tail -f /cockroach/cockroach-data/logs/cockroach.log
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+    networks:
+      cockroachdb_net:
+        aliases:
+          - node1
+
+  node2:
+    hostname: node2
+    image: cockroachdb/cockroach:latest
+#    volumes:
+#      - ./data/node2:/cockroach/cockroach-data
+    entrypoint: []
+    command:
+        - /bin/bash
+        - -c
+        - |
+         /cockroach/cockroach.sh start --insecure --join=node1:26257 --background
+         tail -f /cockroach/cockroach-data/logs/cockroach.log
+    depends_on:
+      - node1
+    networks:
+      cockroachdb_net:
+        aliases:
+          - node2
+  node3:
+    hostname: node3
+    image: cockroachdb/cockroach:latest
+#    volumes:
+#      - ./data/node3:/cockroach/cockroach-data
+    entrypoint: []
+    command:
+        - /bin/bash
+        - -c
+        - |
+         /cockroach/cockroach.sh start --insecure --join=node1:26257 --background
+         /cockroach/cockroach.sh init --insecure --host=node1:26257
+         tail -f /cockroach/cockroach-data/logs/cockroach.log
+    depends_on:
+      - node2
+    networks:
+      cockroachdb_net:
+        aliases:
+          - node3
+
+networks:
+  cockroachdb_net:
+    driver: bridge

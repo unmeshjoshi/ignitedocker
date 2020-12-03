@@ -19,7 +19,7 @@ public class IgniteFactory implements Serializable {
         cfg.setWorkDirectory("/tmp/work");
         TcpDiscoverySpi discoSpi = new TcpDiscoverySpi();
         TcpDiscoveryVmIpFinder ipFinder = new TcpDiscoveryVmIpFinder();
-        ipFinder.setAddresses(Arrays.asList("localhost:47500..47509"));
+        ipFinder.setAddresses(Arrays.asList("localhost:47500"));
         discoSpi.setIpFinder(ipFinder);
         cfg.setDiscoverySpi(discoSpi);
         Ignite ignite = Ignition.getOrStart(cfg);

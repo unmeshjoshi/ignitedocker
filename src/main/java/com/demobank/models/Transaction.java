@@ -3,7 +3,7 @@ package com.demobank.models;
 import org.apache.ignite.cache.query.annotations.QuerySqlField;
 
 import java.math.BigInteger;
-
+//CREATE TABLE Transactions (transactionId STRING PRIMARY KEY, tranKey STRING, tranDate STRING, amount DECIMAL, tranType STRING);
 public class Transaction {
     @QuerySqlField
     private String transactionId;
